@@ -113,23 +113,46 @@ Default base URL: `https://api.agify.io`
 The test suite validates:
 
 ### Functional Tests
-- Valid name predictions with basic English characters (michael, sarah, ada)
-- International names with special characters (José, Özil, 李)
-- Mixed-case names (MiChAeL)
-- Multiple names in single request (batch processing)
-- Missing name parameter handling
-- Empty and whitespace-only names
-- Very long names (1000+ characters)
-- Idempotent behavior on repeated queries
-- Country-specific age estimation with localization
-- Concurrent request handling and rate limiting
+- **Single name requests** - Basic age estimation for individual names
+- **Country-specific requests** - Age estimation with country_id parameter for localization
+- **Multiple names requests** - Batch processing of multiple names in single API call
+- **Missing parameter handling** - API behavior when no parameters are provided (422 error)
+- **Empty name parameter** - API handling of empty string name parameter
+- **Invalid character handling** - API processing of special characters (@#$%)
+- **Invalid country code** - API behavior with invalid country_id values
+- **Mixed valid/invalid inputs** - Partial invalid input in batch requests
+- **Very long names** - API handling of excessively long input strings (1000+ characters)
+- **Stress testing** - API behavior with large number of names (100 names)
+- **HTTP method validation** - API rejection of non-GET methods (POST returns 404)
+- **Response format validation** - JSON structure and required fields verification
 
 ### Contract Tests
-- Response schema validation (name: string, age: int|null, count: int)
-- HTTP status codes (200, 400, 422)
-- Response content-type (application/json)
-- Response time (under 2 seconds)
-- Multi-browser compatibility (Chromium, Firefox, WebKit)
+- **Response schema validation** - Validates name (string), age (int|null), count (int) fields
+- **HTTP status codes** - Tests 200 (success), 422 (unprocessable entity), 404 (not found)
+- **Response content-type** - Ensures application/json content type
+- **Response time validation** - Performance testing under 2 seconds
+- **Multi-browser compatibility** - Cross-browser testing (Chromium, Firefox, WebKit)
+- **Array response validation** - Batch requests return proper array format
+- **Error message validation** - Correct error messages for missing/invalid parameters
+
+### Test Scenarios (14 Total)
+
+The test suite includes the following specific scenarios:
+
+1. **Single name request** - Basic age estimation for "michael"
+2. **Single name with country_id** - Localized age estimation with "US" country code
+3. **Multiple names request** - Batch processing of "michael", "matthew", "jane"
+4. **Request with no parameters** - Tests 422 error for missing name parameter
+5. **Request with empty name parameter** - Tests API handling of empty string
+6. **Request with invalid characters** - Tests special characters "@#$%"
+7. **Request with invalid country code** - Tests invalid country_id "XYZ"
+8. **Multiple names with partial invalid input** - Mixed valid/invalid names
+9. **Request with excessively long name** - Tests 1000+ character names
+10. **Request with many names (stress test)** - Tests 100 names (expects 422 error)
+11. **Validate HTTP status code 200** - Confirms success status for valid requests
+12. **Validate HTTP status code for invalid requests** - Confirms 422 for missing parameters
+13. **Verify response format (JSON structure)** - Validates response schema and required fields
+14. **Verify API rejects non-GET methods** - Tests POST method rejection (404 error)
 
 ### Playwright Integration
 - API request context with built-in rate limiting
