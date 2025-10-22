@@ -1,0 +1,33 @@
+{
+  "name": "agify-api-tests",
+  "version": "1.0.0",
+  "description": "Automated API tests for Agify using TypeScript and Cucumber",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -p .",
+    "test": "cucumber-js",
+    "test:report": "cucumber-js --format html:reports/cucumber-report.html",
+    "lint": "eslint . --ext .ts --fix"
+  },
+  "keywords": [
+    "api",
+    "testing",
+    "cucumber",
+    "typescript"
+  ],
+  "author": "Esther Okafor",
+  "devDependencies": {
+    "@cucumber/cucumber": "^10.9.0",
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^20.17.9",
+    "@typescript-eslint/eslint-plugin": "^8.18.1",
+    "@typescript-eslint/parser": "^8.18.1",
+    "eslint": "^9.17.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "playwright": "^1.56.1"
+  }
+}
